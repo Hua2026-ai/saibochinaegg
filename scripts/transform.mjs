@@ -119,12 +119,7 @@ function transformHtml(html, relPath) {
     out = out.replace('</style>', `${ATTRIBUTION_STYLE}</style>`);
   }
 
-  // --- 5. 顶部来源横幅（仅首页）---
-  if (relPath === 'index.html') {
-    const banner =
-      `<div class="src-banner"><span><b>镜像站</b> · 内容每日自动同步自 <a href="${OLD_DOMAIN}/" target="_blank" rel="noopener">赛博鸡蛋</a>（原作者「炙心」），版权归原作者，本站仅作个人存档与学习。</span><a href="${OLD_DOMAIN}/" target="_blank" rel="noopener">访问原站 →</a></div>`;
-    out = out.replace(/(<main>\s*)/, `$1${banner}\n`);
-  }
+  // （顶部来源横幅已按需求移除）
 
   // --- 6. 底部来源标注 ---
   const attr = `<div class="src-attr">内容来源：<a href="${OLD_DOMAIN}/" target="_blank" rel="noopener">赛博鸡蛋</a>（原作者「炙心」）。本站为每日自动同步的镜像存档，仅作个人学习与备份，全部内容版权归原作者所有；发现侵权可联系删除。</div>`;
