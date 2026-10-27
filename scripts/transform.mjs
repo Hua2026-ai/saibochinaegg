@@ -7,7 +7,8 @@
  *  2. 移除他人身份与推广：微信二维码区块、QQ 群、B站、带货条（深度用 AI）、付费目录页
  *  3. 移除播客（他人真人音频，不转存）
  *  4. 域名重写：saibojidan.pages.dev → saibochinaegg.pages.dev
- *  5. 重新生成 sitemap.xml / robots.txt / feed.xml
+ *  5. 去导流：剥离指向 wzyp.cn 的商品外链（纯存档，不引流）
+ *  6. 重新生成 sitemap.xml / robots.txt / feed.xml
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -102,6 +103,18 @@ function transformHtml(html, relPath) {
     /<img[^>]*src="assets\/qr\.jpg"[^>]*>/g,
     ''
   );
+
+  // --- 2.6 去导流：剥离指向 wzyp.cn 的商品外链（纯存档，不引流）---
+  // 移除整段 <a href="...wzyp.cn...">...</a>（含链接文字），避免向第三方店铺导流
+  out = out.replace(
+    /<a[^>]*href="https?:\/\/([^"\/]*\.)?wzyp\.cn[^"]*"[^>]*>[\s\S]*?<\/a>/gi,
+    ''
+  );
+  // 清理被移除链接后残留的「直达链接」引导语（普通与 <strong> 包裹两种，含标点）
+  out = out.replace(/<strong>直达链接<\/strong>\s*[：:]\s*[，,]?/g, '');
+  out = out.replace(/直达链接\s*[：: ]?/g, '');
+  // 兜底：仍残留的裸 wzyp.cn 文本一律清除
+  out = out.replace(/wzyp\.cn/gi, '');
 
   // --- 3. 域名重写 ---
   out = out.replaceAll('saibojidan.pages.dev', 'saibochinaegg.pages.dev');
