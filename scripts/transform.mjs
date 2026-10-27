@@ -8,7 +8,8 @@
  *  3. 移除播客（他人真人音频，不转存）
  *  4. 域名重写：saibojidan.pages.dev → saibochinaegg.pages.dev
  *  5. 去导流：剥离指向 wzyp.cn 的商品外链（纯存档，不引流）
- *  6. 重新生成 sitemap.xml / robots.txt / feed.xml
+ *  6. 隐去「购买渠道」正文笔记（notes/gemini-18mo-deadline.html）：保留标题与截止说明，移除价格/渠道正文
+ *  7. 重新生成 sitemap.xml / robots.txt / feed.xml
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -115,6 +116,16 @@ function transformHtml(html, relPath) {
   out = out.replace(/直达链接\s*[：: ]?/g, '');
   // 兜底：仍残留的裸 wzyp.cn 文本一律清除
   out = out.replace(/wzyp\.cn/gi, '');
+
+  // --- 2.7 隐去「购买渠道」正文的笔记（存档，不引流）---
+  // gemini-18mo-deadline.html 整篇是带价格/渠道的购卡指南，仅保留导航、标题与截止说明，
+  // 购买渠道与价格正文整段替换为中性存档说明，避免向第三方店铺导流。每天 CI 重抓后依旧生效。
+  if (relPath === 'notes/gemini-18mo-deadline.html') {
+    out = out.replace(
+      /(<p class="sub">[\s\S]*?<\/p>)([\s\S]*?)(<\/main>)/,
+      '$1\n<p class="note">本备忘为存档内容，原站的购买渠道与价格信息已隐去，仅保留说明性标题。如需 Gemini 配置方法，可参考原作者公开文档。</p>\n$3'
+    );
+  }
 
   // --- 3. 域名重写 ---
   out = out.replaceAll('saibojidan.pages.dev', 'saibochinaegg.pages.dev');
