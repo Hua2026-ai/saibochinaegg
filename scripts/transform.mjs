@@ -42,8 +42,6 @@ const DROP_ASSET_RE = [
 const ATTRIBUTION_STYLE = `
   .src-attr{margin:34px 0 8px;padding:14px 16px;background:rgba(12,10,7,.04);border:1px dashed rgba(12,10,7,.18);border-radius:12px;font-size:12.5px;line-height:1.85;color:#827A6C}
   .src-attr a{color:#A8432A}
-  .src-banner{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between;background:rgba(63,107,46,.07);border:1px solid rgba(63,107,46,.22);border-radius:12px;padding:10px 14px;margin:0 0 18px;font-size:12.5px;color:#4A443A}
-  .src-banner a{color:#3F6B2E;font-weight:700}
 `;
 
 function stripSection(html, className) {
