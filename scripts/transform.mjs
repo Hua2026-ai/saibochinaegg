@@ -7,8 +7,7 @@
  *  2. 移除他人身份与推广：微信二维码区块、QQ 群、B站、带货条（深度用 AI）、付费目录页
  *  3. 移除播客（他人真人音频，不转存）
  *  4. 域名重写：saibojidan.pages.dev → saibochinaegg.pages.dev
- *  5. 每页注入来源标注
- *  6. 重新生成 sitemap.xml / robots.txt / feed.xml
+ *  5. 重新生成 sitemap.xml / robots.txt / feed.xml
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -38,11 +37,6 @@ const DROP_ASSET_RE = [
   /^assets\/qr\./,
   /^podcast-cover\./,
 ];
-
-const ATTRIBUTION_STYLE = `
-  .src-attr{margin:34px 0 8px;padding:14px 16px;background:rgba(12,10,7,.04);border:1px dashed rgba(12,10,7,.18);border-radius:12px;font-size:12.5px;line-height:1.85;color:#827A6C}
-  .src-attr a{color:#A8432A}
-`;
 
 function stripSection(html, className) {
   const re = new RegExp(
@@ -112,20 +106,7 @@ function transformHtml(html, relPath) {
   // --- 3. 域名重写 ---
   out = out.replaceAll('saibojidan.pages.dev', 'saibochinaegg.pages.dev');
 
-  // --- 4. 注入样式 ---
-  if (!out.includes('.src-attr{')) {
-    out = out.replace('</style>', `${ATTRIBUTION_STYLE}</style>`);
-  }
-
-  // （顶部来源横幅已按需求移除）
-
-  // --- 6. 底部来源标注 ---
-  const attr = `<div class="src-attr">内容来源：<a href="${OLD_DOMAIN}/" target="_blank" rel="noopener">赛博鸡蛋</a>（原作者「炙心」）。本站为每日自动同步的镜像存档，仅作个人学习与备份，全部内容版权归原作者所有；发现侵权可联系删除。</div>`;
-  if (out.includes('</main>')) {
-    out = out.replace('</main>', `${attr}\n</main>`);
-  } else {
-    out = out.replace('</body>', `${attr}\n</body>`);
-  }
+  // （顶部来源横幅与每页来源标注均已按需求移除）
 
   return out;
 }
