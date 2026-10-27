@@ -129,6 +129,11 @@ if (import.meta.filename === process.argv[1]) {
   const doDeploy = process.argv.includes('--deploy');
   sync({ deploy: doDeploy })
     .then((r) => {
+      // 部署失败必须让 workflow 标红（之前被 try/catch 吞掉，导致「假绿」）
+      if (r.deploy && r.deploy.error) {
+        console.error('[sync] ✗ 部署失败：' + r.deploy.error);
+        process.exit(1);
+      }
       if (r.verify.issues.length) {
         console.log('[sync] 完成，但有告警需人工确认');
       } else {
