@@ -1,0 +1,7 @@
+name = "saibochinaegg"
+pages_build_output_dir = "site"
+compatibility_date = "2026-10-01"
+
+# 本项目为 Cloudflare Pages 直接上传（Direct Upload）。
+# 部署命令：npm run deploy  →  node scripts/sync.mjs --deploy
+# 首次部署需先完成一次授权：wrangler login（交互式）或配置 CLOUDFLARE_API_TOKEN 环境变量。

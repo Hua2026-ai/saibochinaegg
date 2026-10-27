@@ -1,0 +1,8 @@
+# 抓取缓存与构建产物不入库，CI 中实时生成
+raw/
+site/
+logs/
+node_modules/
+.wrangler/
+*.log
+.DS_Store

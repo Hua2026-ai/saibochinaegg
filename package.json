@@ -1,0 +1,15 @@
+{
+  "name": "saibochinaegg",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "赛博中国鸡蛋 —— 赛博鸡蛋每日 AI 福利的自动同步镜像站",
+  "scripts": {
+    "crawl": "node scripts/crawl.mjs",
+    "transform": "node scripts/transform.mjs",
+    "build": "node scripts/transform.mjs",
+    "sync": "node scripts/sync.mjs",
+    "deploy": "node scripts/sync.mjs --deploy",
+    "preview": "npx --yes serve site -l 4173"
+  }
+}
